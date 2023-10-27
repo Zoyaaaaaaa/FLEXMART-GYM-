@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    padding: 20px;
+}
+
+.wishlist-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.wishlist-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.wishlist-item {
+    background-color: #222; /* Dark gray background */
+    border: 1px solid #444; /* Dark border */
+    margin-bottom: 20px;
+    padding: 15px;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Slightly more pronounced shadow */
+    transform: translateY(0);
+}
+
+.wishlist-item img {
+    max-width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.wishlist-item-details {
+    flex: 1;
+}
+
+.wishlist-item-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #ff3f6c; /* Red heart icon */
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.remove-button {
+    background-color: #e61344; /* Red background for the remove button */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+    background-color: #e21b3c; /* Slightly darker red on hover */
+}
+
+.bin-icon {
+    margin-right: 8px;
+}
+
+@keyframes expandWishlist {
+    0% {
+        width: 100%;
+    }
+    50% {
+        width: 120%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.expanded {
+    animation: expandWishlist 1s ease;
+}
+
+ </style>
+</head>
+
+<body>
+    <div class="wishlist-container">
+        <div class="wishlist-header">My Wishlist</div>
+        <div class="wishlist-item" data-id="1">
+            <img src="https://m.media-amazon.com/images/I/61d6UfDdpsL._SL1200_.jpg" alt="Protein Powder">
+            <div class="wishlist-item-details">
+                <h3 class="wishlist-item-title">Bigmuscles Protein Powder</h3>
+                <p>Premium Gold Whey protein is made using the world's finest quality of Whey Protein Isolate & Whey protein concentrate, High-quality protein per serving.</p>
+                <p>Rs 375</p>
+                <button class="remove-button" onclick="removeFromWishlist(1)">
+                    <i class="fas fa-trash bin-icon"></i> Remove from Wishlist
+                </button>
+            </div>
+            <span class="heart-icon">&hearts;</span>
+        </div>
+        <div class="wishlist-item" data-id="2">
+            <img src="https://cdnb.lystit.com/photos/2011/09/14/nike-carbon-heather-black-pro-combat-dri-fit-fitted-t-shirt-product-2-1987374-078852542.jpeg" alt="Nike Jersey">
+            <div class="wishlist-item-details">
+                <h3 class="wishlist-item-title">Nike Grey Jersey</h3>
+                <p>Slim fit grey jersey perfect for wearing at the gym or while playing sports. Stylish half-sleeved jersey giving the perfect athletic look.</p>
+                <button class="remove-button" onclick="removeFromWishlist(2)">
+                    <i class="fas fa-trash bin-icon"></i> Remove from Wishlist
+                </button>
+            </div>
+            <span class "heart-icon">&hearts;</span>
+        </div>
+        <div class="wishlist-item" data-id="3">
+            <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/fl_progressive,f_auto,q_auto:eco,w_300,h_400,ar_0.75,c_fill,q_70/dpr_1.5/cultgear-content/cv4GCjuUxcgr5AABQAt1qdCQ" alt="Dumbbells">
+            <div class="wishlist-item-details">
+                <h3 class="wishlist-item-title">Dumbells</h3>
+                <p>This dumbbell is the latest innovation in Home Fitness, replacing multiple sets of weights. The product has easy-to-use selection dials for adjusting weights.</p>
+                <button class="remove-button" onclick="removeFromWishlist(3)">
+                    <i class="fas fa-trash bin-icon"></i> Remove from Wishlist
+                </button>
+            </div>
+            <span class="heart-icon">&hearts;</span>
+        </div>
+    </div>
+
+    <script>
+        function removeFromWishlist(itemId) {
+            // Logic to remove the item from the wishlist
+            const wishlistItem = document.querySelector(`.wishlist-item[data-id="${itemId}"]`);
+            if (wishlistItem) {
+                wishlistItem.remove();
+                console.log(`Item with ID ${itemId} removed from the wishlist.`);
+            } else {
+                console.log(`Item with ID ${itemId} not found in the wishlist.`);
+            }
+        }
+
+        const wishlistHeader = document.querySelector('.wishlist-header');
+
+        // Add the 'expanded' class to the wishlist header
+        wishlistHeader.classList.add('expanded');
+
+        // Remove the 'expanded' class after the animation completes
+        setTimeout(() => {
+            wishlistHeader.classList.remove('expanded');
+        }, 1000);
+    </script>
+</body>
+
+</html>
+
+
