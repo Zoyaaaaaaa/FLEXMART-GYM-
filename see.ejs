@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+ <link rel="stylesheet" href="/see.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Product Description</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="/home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/all">Products</a>
+              </li>
+              <li class="nav-item">
+                <i class="fa-regular fa-heart" style="color: #c60c3a;"></i> 
+                <a class="nav-link" href="#">Wishilist</a>
+              </li>
+              <li class="nav-item">
+                <i class="fas fa-shopping-cart"></i>
+                <a class="nav-link" href="#">Cart</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <h3><%=pdt.name%></h3>
+    <div class="card" style="width: 18rem;">
+        <img src="<%=pdt.image%>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+       <div class="content">
+       
+        <li><%= pdt.description %></li>
+        <li>&#8377; <%= parseFloat(pdt.price).toLocaleString("en-IN") %></li>
+        <li><%= pdt.type %></li>
+        <li><%= pdt.availability %></li>
+        <li><%= pdt.review %></li>
+    </div>
+    </div>
+    <hr>
+    <div class="col-8 offset-2">
+      <h4>Leave a Review</h4>
+      <form class="mb-3" method="POST" action="/all/<%=pdt._id%>/rating" novalidate="needs-validation">
+        <div class="mb-3 mt-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input type="range" min="1" max="5" id="rating" name="rating[rat]" required >
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="comment" class="form-label">Comment</label>
+       <textarea name="rating[comment]" id="comment" cols="50" rows="5" class="form-control" required></textarea>
+      </div>
+      <button class=" btn btn-outline-dark">Submit</button>
+    </form>
+    </div>
+    </form>
+    <hr>
+
+  
+</div>
+    <footer>
+        <div class="contact" id="contacts">
+            <h2>Contact Us</h2>
+            <p>Feel free to get in touch with us for any inquiries.</p>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f fa-2x" style="color: #000;"></i></a>
+            <a href="#"><i class="fab fa-instagram fa-2x" style="color: #000;"></i></a>
+            <a href="#"><i class="fas fa-envelope fa-2x" style="color: #000;"></i></a>
+        </div>
+        <div class="center">
+            Copyright &copy; www.flexmart.com. All rights reserved!
+        </div>
+    </footer>
+
+</body>
+</html>
