@@ -1,0 +1,64 @@
+body{
+    background-color: white;
+}
+footer {
+    background-color: #f7f7f7;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .contact h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .contact p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .social-icons a {
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .social-icons i {
+    font-size: 38px;
+    transition: color 0.3s;
+  }
+  
+  .social-icons i:hover {
+    color: #007bff;
+  }
+  /* cards */
+  .card{
+    
+    border: none  !important;
+    margin-bottom: 2rem;
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+
+}
+.card-body{
+    padding: 0 !important;
+}
+.card text{
+  font-weight: 400;
+  font-style: bold !important ;
+}
+
+/* Card Effect */
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+.add-btn{
+    border: none !important;
+    /* background-color: rgb(144, 169, 238) !important; */
+}
