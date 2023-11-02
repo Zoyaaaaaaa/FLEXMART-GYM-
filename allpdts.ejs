@@ -25,31 +25,163 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Equipments</a></li>
-                <li><a class="dropdown-item" href="#">Accessories</a></li>
-                <li><a class="dropdown-item" href="#">Supplements</a></li>
-              </ul>
-            </li>
-          </ul>
+           
+           <!-- Add a dropdown for categories -->
+        
         </div>
       </div>
     </nav>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <% for(let pdt of allpdts){ %> 
-    <div class="card col" style="width:18rem" >
-      <img src="<%=pdt.image%>" class="card-img-top" alt="product_image" style="height:17rem">
-      <div class="card-body">
-        <h5 class="card-title"><a href="/pdt/<%= pdt._id %>"><%=pdt.name%></a></h5>
-        <p class="card-text">&#8377; <%= parseFloat(pdt.price).toLocaleString("en-IN") %></p>
-        <a href="/pdt/<%=pdt._id%>" class="btn btn-primary">See in detail</a>
+    <!-- Sidebar -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row">
+              <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="visibility: permanent;">
+                  <div class="position-sticky">
+                      <ul class="nav flex-column">
+                          <li class="nav-item">
+                            <h4>Filters</h4>
+                          </li>
+                          <!-- Separate divs for each category option -->
+                          <h6 style="height: 20px;"> Equipments</h6>
+                          <li class="nav-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="Strength" id="strengthCheck">
+                                  <label class="form-check-label" for="strengthCheck">
+                                      Strength
+                                  </label>
+                              </div>
+                          </li>
+                          <li class="nav-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="Cardio" id="cardioCheck">
+                                  <label class="form-check-label" for="cardioCheck">
+                                      Cardio
+                                  </label>
+                              </div>
+                          </li>
+                          <h6 style="height: 20px;"> Eatables</h6>
+                          <li class="nav-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="Supplements" id="supplementsCheck">
+                                  <label class="form-check-label" for="supplementsCheck">
+                                      Supplements
+                                  </label>
+                              </div>
+                          </li>
+                          <h6 style="height: 20px;"> Apparel</h6>
+                          <li class="nav-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="Apparel" id="apparelCheck">
+                                  <label class="form-check-label" for="apparelCheck">
+                                      Clothing
+                                  </label>
+                              </div>
+                          </li>
+                          <li class="nav-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Footwear" id="footwearCheck">
+                                <label class="form-check-label" for="footwearCheck">
+                                    Footwear
+                                </label>
+                            </div>
+                        </li>
+                          <li class="nav-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="Accessories" id="accessoriesCheck">
+                                  <label class="form-check-label" for="accessoriesCheck">
+                                      Accessories
+                                  </label>
+                              </div>
+                          </li>
+                          <!-- Add more category options as needed -->
+                      </ul>
+                  </div>
+              </nav>
+          <!-- Product Container -->
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+              <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1" id="productContainer">
+                  <!-- Product cards will be dynamically added here using EJS -->
+                  <% allpdts.forEach(pdt => { %>
+                      <div class="card col" style="width:18rem" data-category="<%= pdt.type %>">
+                          <img src="<%= pdt.image %>" class="card-img-top" alt="product_image" style="height:17rem">
+                          <div class="card-body">
+                              <h5 class="card-title"><a href="/pdt/<%= pdt._id %>"><%= pdt.name %></a></h5>
+                              <p class="card-text">&#8377; <%= parseFloat(pdt.price).toLocaleString("en-IN") %></p>
+                              <a href="/pdt/<%= pdt._id %>" class="btn btn-primary">See in detail</a>
+                          </div>
+                      </div>
+                  <% }); %>
+              </div>
+          </main>
       </div>
-    </div>
-   <% } %> 
-</div>
+  </div>
+
+  <script>
+    // JavaScript code for filtering products
+    const productCards = Array.from(document.querySelectorAll('.card'));
+
+    // Function to hide all product cards
+    function hideAllProducts() {
+        productCards.forEach(card => {
+            card.style.display = 'none';
+        });
+    }
+
+    // Function to show products based on selected categories
+    function showProductsByCategories(categories) {
+        hideAllProducts();
+        productCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (categories.includes(cardCategory) || categories.length === 0) {
+                card.style.display = 'block';
+            }
+        });
+    }
+
+    // Event listeners for checkbox changes
+    const strengthCheck = document.getElementById('strengthCheck');
+    const cardioCheck = document.getElementById('cardioCheck');
+    const supplementsCheck = document.getElementById('supplementsCheck');
+    const footwearCheck = document.getElementById('footwearCheck');
+    const apparelCheck = document.getElementById('apparelCheck');
+    const accessoriesCheck = document.getElementById('accessoriesCheck');
+
+    strengthCheck.addEventListener('change', updateProducts);
+    cardioCheck.addEventListener('change', updateProducts);
+    supplementsCheck.addEventListener('change', updateProducts);
+    footwearCheck.addEventListener('change', updateProducts);
+    apparelCheck.addEventListener('change', updateProducts);
+    accessoriesCheck.addEventListener('change', updateProducts);
+
+    // Function to handle checkbox changes and update displayed products
+    function updateProducts() {
+        const selectedCategories = [];
+        if (strengthCheck.checked) {
+            selectedCategories.push('Strength');
+        }
+        if (cardioCheck.checked) {
+            selectedCategories.push('Cardio');
+        }
+        if (supplementsCheck.checked) {
+            selectedCategories.push('supplements');
+        }
+        if (footwearCheck.checked) {
+            selectedCategories.push('Footwear');
+        }
+        if (apparelCheck.checked) {
+            selectedCategories.push('Apparel');
+        }
+        if (accessoriesCheck.checked) {
+            selectedCategories.push('Accessories');
+        }
+
+        showProductsByCategories(selectedCategories);
+    }
+
+    // Initial display of products (show all products)
+    showProductsByCategories([]);
+</script>
 </body>
+
 </html>
