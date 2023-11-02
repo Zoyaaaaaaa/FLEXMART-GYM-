@@ -8,7 +8,7 @@ const MONGO_URL="mongodb://127.0.0.1:27017/gym";
 const { v4: uuidv4 } = require('uuid');
 var methodOverride = require('method-override');
 const mongoose=require("mongoose");
-//const Rating=require("./models/rating.js");
+const Rating=require("./models/rating.js");
 
 
 main().then(()=>{
@@ -74,6 +74,36 @@ app.get("/pdt/:id",async(req,res)=>{
   const pdt=await Product.findById(id);
   res.render("see.ejs",{pdt});
 });
+app.post("/all/:id/rating", async (req, res) => {
+    try {
+      // Find the product by ID
+      const pdt = await Product.findById(req.params.id);
+      if (!pdt) {
+        return res.status(404).send("Product not found");
+      }
+  
+      // Create a new Rating object from the submitted data
+      const newRating = new Rating({
+        comment: req.body.rating.comment,
+      });
+  
+      // Add the new rating to the product's ratings array
+      pdt.rating.push(newRating);
+  
+      // Save the new rating and the updated product
+      await newRating.save();
+      await pdt.save();
+      console.log("New review saved");
+      console.log(newRating);
+  
+      // Redirect to the product page
+      res.redirect(`/pdt/${pdt._id}`);
+    } catch (error) {
+      console.error("Error saving the review:", error);
+      res.status(500).send("Error saving the review");
+    }
+  });
+  
 //cart
 const cart = []; 
 app.get('/cart', (req, res) => {
@@ -129,23 +159,6 @@ app.get('/wishlist', (req, res) => {
 
 
 
-//review
-app.post("/all/:id/rating",async(req,res)=>{
-    let pdt=await Product.findById(req.params.id);
-    const newRating = new Rating({
-       comment: req.body.rating.comment,
-       rat: req.body.rating.rating,
-     });
-    pdt.rating.push(newRating);
-    await newRating.save();
-    await pdt.save();
-    console.log("new rev saved");
-  
-  res.redirect(`/pdt/${pdt._id}`);
-   });
-app.get("/blogs", (req, res) => {
-    res.render("index.ejs", { blogs: blogs });
-});
 
 app.post("/blogs", (req, res) => {
     let { username,title, content } = req.body;
