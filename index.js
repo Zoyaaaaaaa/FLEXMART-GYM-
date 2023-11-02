@@ -8,7 +8,8 @@ const MONGO_URL="mongodb://127.0.0.1:27017/gym";
 const { v4: uuidv4 } = require('uuid');
 var methodOverride = require('method-override');
 const mongoose=require("mongoose");
-const Rating=require("./models/rating.js");
+//const Rating=require("./models/rating.js");
+
 
 main().then(()=>{
     console.log("MongoDb connected successfully!");
@@ -73,6 +74,61 @@ app.get("/pdt/:id",async(req,res)=>{
   const pdt=await Product.findById(id);
   res.render("see.ejs",{pdt});
 });
+//cart
+const cart = []; 
+app.get('/cart', (req, res) => {
+    const productId = req.query.id;
+
+  
+    const existingProduct = cart.find(product => product.id === productId);
+
+    if (existingProduct) {
+        // If the product is already in the cart, increase the quantity by 1
+        existingProduct.quantity += 1;
+    } else {
+        // If the product is not in the cart, add it with quantity 1
+        const product = {
+            id: req.query.id,
+            name: req.query.name,
+            price: parseFloat(req.query.price),
+            image: req.query.image,
+            quantity: 1
+        };
+        cart.push(product);
+    }
+
+    // Render the cart page and pass the cart array to the template
+    res.render('cart', { cart });
+});
+
+//wishlist
+const wishlist = [];
+// Handle adding a product to the wishlist
+app.get('/wishlist', (req, res) => {
+    const productId = req.query.id;
+    const existingProduct = wishlist.find(product => product.id === productId);
+
+    if (existingProduct) {
+        // If the product is already in the wishlist, increase the quantity by 1
+        existingProduct.quantity += 1;
+    } else {
+        // If the product is not in the wishlist, add it with quantity 1
+        const product = {
+            id: req.query.id,
+            name: req.query.name,
+            price: parseFloat(req.query.price),
+            image: req.query.image,
+            quantity: 1
+        };
+        wishlist.push(product);
+    }
+
+    // Render the wishlist page and pass the wishlist array to the template
+    res.render('wishlist', { wishlist });
+});
+
+
+
 //review
 app.post("/all/:id/rating",async(req,res)=>{
     let pdt=await Product.findById(req.params.id);
@@ -194,8 +250,8 @@ app.get("/resources",(req,res)=>{
     app.get("/sidpro",(req,res)=>{
         res.render("sidpro.ejs");
         });
-        const cart = [];
-        const wishlist = [];
+      
+    
         
         app.use(express.json()); 
         app.get('/description', (req, res) => {
@@ -212,41 +268,7 @@ app.get("/resources",(req,res)=>{
             res.render('dumbell.ejs', { pageTitle: 'Product Description', product: product });
         });
         
-        app.get('/cart', (req, res) => {
-          res.render('cart.ejs', { pageTitle: 'My Cart', cart });
-        });
-        
-        app.get('/wish', (req, res) => {
-          // Render the wishlist.ejs template with wishlist data
-          res.render('wishlist.ejs', { pageTitle: 'My Wishlist', wishlist });
-        });
-        
-        app.get('/cart', (req, res) => {
-            const product = {
-                name: 'Nike Men\'s Grey Jersey', // Product name
-                quantity: 1, // Initial quantity
-            };
-        
-            // Check if the product is already in the cart
-            const itemIndex = cart.findIndex(item => item.name === product.name);
-        
-            if (itemIndex === -1) {
-                // Item not in cart, add it
-                cart.push(product);
-            } else {
-                // Item already in cart, increment quantity (limited to 5)
-                if (cart[itemIndex].quantity < 5) {
-                    cart[itemIndex].quantity++;
-                } else {
-                    // Limit reached
-                    res.status(400).json({ message: 'Sorry, this item is out of stock.' });
-                    return;
-                }
-            }
-        
-            // Send a success response with a message
-            res.json({ message: 'Product added to cart.' });
-        });
+      
         
 const defaultCredentials = {
     username: 'MPR@gmail.com',
